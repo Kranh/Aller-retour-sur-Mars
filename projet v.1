@@ -1,1 +1,40 @@
 #Version 1 du projet : Aller-retour sur Mars
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+#prendre en compte périodicité ds THETA
+#rajouter animation
+
+#données planètes
+#Terre
+r_T=149.598*10**6 #demi-grand axe (km)
+v_T=29.78 #vitesse moyenne (km/s)
+#Mars
+r_M=227.956*10**6 #demi-grand axe (km)
+v_M=24.07 #vitesse moyenne (km/s)
+
+#paramètres au choix
+n=1000 #nombre de valeurs
+theta0=0 #angle initial (rad)
+tmin=0
+tmax=360*24*3600 #secondes
+
+TEMPS=np.linspace(tmin,tmax,n)
+
+def position(r,v,theta0):
+    w=v/r #vitesse angulaire
+    THETA=np.array([theta0+w*t for t in TEMPS]) #angle de la planète selon sa vitesse
+    X=r*np.cos(THETA)
+    Y=r*np.sin(THETA)
+    return X,Y
+
+X_T,Y_T=position(r_T,v_T,theta0) #coords Terre
+X_M,Y_M=position(r_M,v_M,theta0) #coords Mars
+
+plt.plot(X_T,Y_T)
+plt.plot(X_M,Y_M)
+plt.axis("equal")
+plt.show()
+
